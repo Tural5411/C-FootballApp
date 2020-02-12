@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DatabaseK300.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_Admin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_Hesabat">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Hesabat_tarixi" Type="datetime" />
+    <Property Name="Hesabat_bitme" Type="datetime" />
+    <Property Name="Musteri_Id" Type="int" />
+    <Property Name="Status" Type="tinyint" />
+    <Property Name="Description" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="tbl_Meydan">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Meydan_Adi" Type="nvarchar" MaxLength="50" />
+    <Property Name="Meydan_nomresi" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_Musteri">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="Soyad" Type="nvarchar" MaxLength="50" />
+    <Property Name="Telefon" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tbl_Otag">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OtagNomre" Type="nvarchar" MaxLength="50" />
+    <Property Name="Musteri_sayi" Type="int" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_Rezerv">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Musteri_Id" Type="int" />
+    <Property Name="Otag_Id" Type="int" />
+    <Property Name="Meydan_Id" Type="int" />
+    <Property Name="Rezerv_Tarix" Type="datetime" />
+    <Property Name="Qiymet" Type="int" />
+  </EntityType>
+  <Association Name="FK_tbl_Hesabat_tbl_Musteri">
+    <End Role="tbl_Musteri" Type="Self.tbl_Musteri" Multiplicity="0..1" />
+    <End Role="tbl_Hesabat" Type="Self.tbl_Hesabat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Musteri">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_Hesabat">
+        <PropertyRef Name="Musteri_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Rezerv_tbl_Meydan">
+    <End Role="tbl_Meydan" Type="Self.tbl_Meydan" Multiplicity="0..1" />
+    <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Meydan">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_Rezerv">
+        <PropertyRef Name="Meydan_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Rezerv_tbl_Musteri">
+    <End Role="tbl_Musteri" Type="Self.tbl_Musteri" Multiplicity="0..1" />
+    <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Musteri">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_Rezerv">
+        <PropertyRef Name="Musteri_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Rezerv_tbl_Otag">
+    <End Role="tbl_Otag" Type="Self.tbl_Otag" Multiplicity="0..1" />
+    <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Otag">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_Rezerv">
+        <PropertyRef Name="Otag_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DatabaseK300StoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Admin" EntityType="Self.tbl_Admin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Hesabat" EntityType="Self.tbl_Hesabat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Meydan" EntityType="Self.tbl_Meydan" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Musteri" EntityType="Self.tbl_Musteri" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Otag" EntityType="Self.tbl_Otag" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Rezerv" EntityType="Self.tbl_Rezerv" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tbl_Hesabat_tbl_Musteri" Association="Self.FK_tbl_Hesabat_tbl_Musteri">
+      <End Role="tbl_Musteri" EntitySet="tbl_Musteri" />
+      <End Role="tbl_Hesabat" EntitySet="tbl_Hesabat" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Rezerv_tbl_Meydan" Association="Self.FK_tbl_Rezerv_tbl_Meydan">
+      <End Role="tbl_Meydan" EntitySet="tbl_Meydan" />
+      <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Rezerv_tbl_Musteri" Association="Self.FK_tbl_Rezerv_tbl_Musteri">
+      <End Role="tbl_Musteri" EntitySet="tbl_Musteri" />
+      <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Rezerv_tbl_Otag" Association="Self.FK_tbl_Rezerv_tbl_Otag">
+      <End Role="tbl_Otag" EntitySet="tbl_Otag" />
+      <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

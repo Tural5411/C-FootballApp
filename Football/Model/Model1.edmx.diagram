@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b86a961cecf641408cf7cba578147761" Name="Diagram1">
+        <EntityTypeShape EntityType="DatabaseK300.sysdiagrams" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseK300.tbl_Admin" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseK300.tbl_Hesabat" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseK300.tbl_Meydan" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseK300.tbl_Musteri" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseK300.tbl_Otag" Width="1.5" PointX="3.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseK300.tbl_Rezerv" Width="1.5" PointX="6" PointY="3.625" IsExpanded="true" />
+        <AssociationConnector Association="DatabaseK300.FK_tbl_Hesabat_tbl_Musteri" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseK300.FK_tbl_Rezerv_tbl_Meydan" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseK300.FK_tbl_Rezerv_tbl_Musteri" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseK300.FK_tbl_Rezerv_tbl_Otag" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

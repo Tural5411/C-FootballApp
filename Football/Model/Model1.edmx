@@ -1,0 +1,401 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DatabaseK300.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_Admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_Hesabat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Hesabat_tarixi" Type="datetime" />
+          <Property Name="Hesabat_bitme" Type="datetime" />
+          <Property Name="Musteri_Id" Type="int" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="tbl_Meydan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Meydan_Adi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Meydan_nomresi" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_Musteri">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Soyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_Otag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OtagNomre" Type="nvarchar" MaxLength="50" />
+          <Property Name="Musteri_sayi" Type="int" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Rezerv">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Musteri_Id" Type="int" />
+          <Property Name="Otag_Id" Type="int" />
+          <Property Name="Meydan_Id" Type="int" />
+          <Property Name="Rezerv_Tarix" Type="datetime" />
+          <Property Name="Qiymet" Type="int" />
+        </EntityType>
+        <Association Name="FK_tbl_Hesabat_tbl_Musteri">
+          <End Role="tbl_Musteri" Type="Self.tbl_Musteri" Multiplicity="0..1" />
+          <End Role="tbl_Hesabat" Type="Self.tbl_Hesabat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Musteri">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_Hesabat">
+              <PropertyRef Name="Musteri_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Rezerv_tbl_Meydan">
+          <End Role="tbl_Meydan" Type="Self.tbl_Meydan" Multiplicity="0..1" />
+          <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Meydan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_Rezerv">
+              <PropertyRef Name="Meydan_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Rezerv_tbl_Musteri">
+          <End Role="tbl_Musteri" Type="Self.tbl_Musteri" Multiplicity="0..1" />
+          <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Musteri">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_Rezerv">
+              <PropertyRef Name="Musteri_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Rezerv_tbl_Otag">
+          <End Role="tbl_Otag" Type="Self.tbl_Otag" Multiplicity="0..1" />
+          <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Otag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_Rezerv">
+              <PropertyRef Name="Otag_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DatabaseK300StoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Admin" EntityType="Self.tbl_Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Hesabat" EntityType="Self.tbl_Hesabat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Meydan" EntityType="Self.tbl_Meydan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Musteri" EntityType="Self.tbl_Musteri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Otag" EntityType="Self.tbl_Otag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Rezerv" EntityType="Self.tbl_Rezerv" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_Hesabat_tbl_Musteri" Association="Self.FK_tbl_Hesabat_tbl_Musteri">
+            <End Role="tbl_Musteri" EntitySet="tbl_Musteri" />
+            <End Role="tbl_Hesabat" EntitySet="tbl_Hesabat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Rezerv_tbl_Meydan" Association="Self.FK_tbl_Rezerv_tbl_Meydan">
+            <End Role="tbl_Meydan" EntitySet="tbl_Meydan" />
+            <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Rezerv_tbl_Musteri" Association="Self.FK_tbl_Rezerv_tbl_Musteri">
+            <End Role="tbl_Musteri" EntitySet="tbl_Musteri" />
+            <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Rezerv_tbl_Otag" Association="Self.FK_tbl_Rezerv_tbl_Otag">
+            <End Role="tbl_Otag" EntitySet="tbl_Otag" />
+            <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatabaseK300" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_Admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_Hesabat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hesabat_tarixi" Type="DateTime" Precision="3" />
+          <Property Name="Hesabat_bitme" Type="DateTime" Precision="3" />
+          <Property Name="Musteri_Id" Type="Int32" />
+          <Property Name="Status" Type="Byte" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Musteri" Relationship="Self.FK_tbl_Hesabat_tbl_Musteri" FromRole="tbl_Hesabat" ToRole="tbl_Musteri" />
+        </EntityType>
+        <EntityType Name="tbl_Meydan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Meydan_Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Meydan_nomresi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Rezerv" Relationship="Self.FK_tbl_Rezerv_tbl_Meydan" FromRole="tbl_Meydan" ToRole="tbl_Rezerv" />
+        </EntityType>
+        <EntityType Name="tbl_Musteri">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Hesabat" Relationship="Self.FK_tbl_Hesabat_tbl_Musteri" FromRole="tbl_Musteri" ToRole="tbl_Hesabat" />
+          <NavigationProperty Name="tbl_Rezerv" Relationship="Self.FK_tbl_Rezerv_tbl_Musteri" FromRole="tbl_Musteri" ToRole="tbl_Rezerv" />
+        </EntityType>
+        <EntityType Name="tbl_Otag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OtagNomre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Musteri_sayi" Type="Int32" />
+          <Property Name="Status" Type="Int32" />
+          <NavigationProperty Name="tbl_Rezerv" Relationship="Self.FK_tbl_Rezerv_tbl_Otag" FromRole="tbl_Otag" ToRole="tbl_Rezerv" />
+        </EntityType>
+        <EntityType Name="tbl_Rezerv">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Musteri_Id" Type="Int32" />
+          <Property Name="Otag_Id" Type="Int32" />
+          <Property Name="Meydan_Id" Type="Int32" />
+          <Property Name="Rezerv_Tarix" Type="DateTime" Precision="3" />
+          <Property Name="Qiymet" Type="Int32" />
+          <NavigationProperty Name="tbl_Meydan" Relationship="Self.FK_tbl_Rezerv_tbl_Meydan" FromRole="tbl_Rezerv" ToRole="tbl_Meydan" />
+          <NavigationProperty Name="tbl_Musteri" Relationship="Self.FK_tbl_Rezerv_tbl_Musteri" FromRole="tbl_Rezerv" ToRole="tbl_Musteri" />
+          <NavigationProperty Name="tbl_Otag" Relationship="Self.FK_tbl_Rezerv_tbl_Otag" FromRole="tbl_Rezerv" ToRole="tbl_Otag" />
+        </EntityType>
+        <Association Name="FK_tbl_Hesabat_tbl_Musteri">
+          <End Role="tbl_Musteri" Type="Self.tbl_Musteri" Multiplicity="0..1" />
+          <End Role="tbl_Hesabat" Type="Self.tbl_Hesabat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Musteri">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_Hesabat">
+              <PropertyRef Name="Musteri_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Rezerv_tbl_Meydan">
+          <End Role="tbl_Meydan" Type="Self.tbl_Meydan" Multiplicity="0..1" />
+          <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Meydan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_Rezerv">
+              <PropertyRef Name="Meydan_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Rezerv_tbl_Musteri">
+          <End Role="tbl_Musteri" Type="Self.tbl_Musteri" Multiplicity="0..1" />
+          <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Musteri">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_Rezerv">
+              <PropertyRef Name="Musteri_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Rezerv_tbl_Otag">
+          <End Role="tbl_Otag" Type="Self.tbl_Otag" Multiplicity="0..1" />
+          <End Role="tbl_Rezerv" Type="Self.tbl_Rezerv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Otag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tbl_Rezerv">
+              <PropertyRef Name="Otag_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Football_DB" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tbl_Admin" EntityType="Self.tbl_Admin" />
+          <EntitySet Name="tbl_Hesabat" EntityType="Self.tbl_Hesabat" />
+          <EntitySet Name="tbl_Meydan" EntityType="Self.tbl_Meydan" />
+          <EntitySet Name="tbl_Musteri" EntityType="Self.tbl_Musteri" />
+          <EntitySet Name="tbl_Otag" EntityType="Self.tbl_Otag" />
+          <EntitySet Name="tbl_Rezerv" EntityType="Self.tbl_Rezerv" />
+          <AssociationSet Name="FK_tbl_Hesabat_tbl_Musteri" Association="Self.FK_tbl_Hesabat_tbl_Musteri">
+            <End Role="tbl_Musteri" EntitySet="tbl_Musteri" />
+            <End Role="tbl_Hesabat" EntitySet="tbl_Hesabat" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Rezerv_tbl_Meydan" Association="Self.FK_tbl_Rezerv_tbl_Meydan">
+            <End Role="tbl_Meydan" EntitySet="tbl_Meydan" />
+            <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Rezerv_tbl_Musteri" Association="Self.FK_tbl_Rezerv_tbl_Musteri">
+            <End Role="tbl_Musteri" EntitySet="tbl_Musteri" />
+            <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Rezerv_tbl_Otag" Association="Self.FK_tbl_Rezerv_tbl_Otag">
+            <End Role="tbl_Otag" EntitySet="tbl_Otag" />
+            <End Role="tbl_Rezerv" EntitySet="tbl_Rezerv" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DatabaseK300StoreContainer" CdmEntityContainer="Football_DB">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DatabaseK300.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Admin">
+            <EntityTypeMapping TypeName="DatabaseK300.tbl_Admin">
+              <MappingFragment StoreEntitySet="tbl_Admin">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Hesabat">
+            <EntityTypeMapping TypeName="DatabaseK300.tbl_Hesabat">
+              <MappingFragment StoreEntitySet="tbl_Hesabat">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Hesabat_tarixi" ColumnName="Hesabat_tarixi" />
+                <ScalarProperty Name="Hesabat_bitme" ColumnName="Hesabat_bitme" />
+                <ScalarProperty Name="Musteri_Id" ColumnName="Musteri_Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Meydan">
+            <EntityTypeMapping TypeName="DatabaseK300.tbl_Meydan">
+              <MappingFragment StoreEntitySet="tbl_Meydan">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Meydan_Adi" ColumnName="Meydan_Adi" />
+                <ScalarProperty Name="Meydan_nomresi" ColumnName="Meydan_nomresi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Musteri">
+            <EntityTypeMapping TypeName="DatabaseK300.tbl_Musteri">
+              <MappingFragment StoreEntitySet="tbl_Musteri">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Otag">
+            <EntityTypeMapping TypeName="DatabaseK300.tbl_Otag">
+              <MappingFragment StoreEntitySet="tbl_Otag">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OtagNomre" ColumnName="OtagNomre" />
+                <ScalarProperty Name="Musteri_sayi" ColumnName="Musteri_sayi" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Rezerv">
+            <EntityTypeMapping TypeName="DatabaseK300.tbl_Rezerv">
+              <MappingFragment StoreEntitySet="tbl_Rezerv">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Musteri_Id" ColumnName="Musteri_Id" />
+                <ScalarProperty Name="Otag_Id" ColumnName="Otag_Id" />
+                <ScalarProperty Name="Meydan_Id" ColumnName="Meydan_Id" />
+                <ScalarProperty Name="Rezerv_Tarix" ColumnName="Rezerv_Tarix" />
+                <ScalarProperty Name="Qiymet" ColumnName="Qiymet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
